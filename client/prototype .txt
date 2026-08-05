@@ -1,0 +1,26 @@
+d:/leftoverlink/
+├── src/
+│   ├── app/
+│   │   ├── components/          # All React components
+│   │   │   ├── ui/              # Reusable UI components
+│   │   │   ├── LandingPage.tsx
+│   │   │   ├── ReceiverDashboard.tsx
+│   │   │   ├── ProviderDashboard.tsx
+│   │   │   ├── WalletPage.tsx
+│   │   │   ├── ProviderWalletPage.tsx
+│   │   │   ├── PostFoodPage.tsx
+│   │   │   ├── SettingsPage.tsx
+│   │   │   └── ... (21 components total)
+│   │   ├── hooks/               # Custom React hooks
+│   │   ├── app.tsx              # Main app router
+│   │   ├── types.ts             # TypeScript type definitions
+│   │   └── mockData.ts          # Mock data for development
+│   ├── styles/
+│   │   ├── index.css
+│   │   ├── tailwind.css
+│   │   ├── theme.css
+│   │   └── fonts.css
+│   └── main.tsx                 # Application entry point
+├── index.html
+├── package.json
+└── vite.config.ts
