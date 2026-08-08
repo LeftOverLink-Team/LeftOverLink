@@ -36,17 +36,10 @@ function ProviderMapButtons({ posts }: { posts: MapPost[] }) {
       async () => {
         // Fallback to settings from MongoDB
         try {
-          const apiRoot = ((import.meta as any)?.env?.VITE_API_URL as string) || 'http://localhost:5001';
-          const token = localStorage.getItem('token');
-          const res = await fetch(`${apiRoot}/api/auth/settings`, {
-            headers: token ? { Authorization: `Bearer ${token}` } : {}
-          });
-          if (res.ok) {
-            const settings = await res.json();
-            if (settings.lat && settings.lng) {
-              setUserLat(settings.lat);
-              setUserLng(settings.lng);
-            }
+          const res = await api.get('/auth/settings');
+          if (res.data && res.data.lat && res.data.lng) {
+            setUserLat(res.data.lat);
+            setUserLng(res.data.lng);
           }
         } catch { }
       }

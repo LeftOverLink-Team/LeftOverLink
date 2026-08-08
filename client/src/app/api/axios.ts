@@ -1,11 +1,12 @@
 import axios from "axios";
 
-const apiRoot =
-  ((import.meta as any)?.env?.VITE_API_URL as string) ||
-  "http://localhost:5001";
+const rawApiUrl = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
+const baseHost = rawApiUrl || "http://localhost:5001";
+const cleanHost = baseHost.replace(/\/+$/, "");
+const baseURL = cleanHost.endsWith("/api") ? cleanHost : `${cleanHost}/api`;
 
 const instance = axios.create({
-  baseURL: `${apiRoot.replace(/\/$/, "")}/api`,
+  baseURL,
   withCredentials: true, // Needed for sending/receiving HttpOnly cookies
 });
 
@@ -66,7 +67,7 @@ instance.interceptors.response.use(
 
       try {
         const res = await axios.post(
-          `${apiRoot.replace(/\/$/, "")}/api/auth/refresh`,
+          `${baseURL}/auth/refresh`,
           {},
           { withCredentials: true }
         );

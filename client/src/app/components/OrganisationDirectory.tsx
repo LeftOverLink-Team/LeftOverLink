@@ -5,7 +5,7 @@ import { OrganisationMap } from "./organisation/OrganisationMap";
 import { Input } from "./ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { LayoutGrid, Map as MapIcon, Search, Building2, Filter } from "lucide-react";
-import axios from "axios";
+import api from "../api/axios";
 import { toast } from "sonner";
 
 export const OrganisationDirectory: React.FC = () => {
@@ -20,7 +20,7 @@ export const OrganisationDirectory: React.FC = () => {
 
     const fetchOrganisations = async () => {
         try {
-            const response = await axios.get("/api/organisations");
+            const response = await api.get("/organisations");
             setOrganisations(response.data);
         } catch (err) {
             console.error("Failed to fetch organisations:", err);
@@ -32,7 +32,7 @@ export const OrganisationDirectory: React.FC = () => {
 
     const handleToggleNotifications = async (id: string, enabled: boolean) => {
         try {
-            await axios.post(`/api/organisations/${id}/enable-alerts`, { receiveFoodAlerts: enabled });
+            await api.post(`/organisations/${id}/enable-alerts`, { receiveFoodAlerts: enabled });
             setOrganisations((prev) =>
                 prev.map((org) =>
                     org._id === id

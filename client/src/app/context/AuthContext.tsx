@@ -20,8 +20,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const apiRoot =
-    ((import.meta as any)?.env?.VITE_API_URL as string) || 'http://localhost:5001';
+const rawApiUrl = ((import.meta as any)?.env?.VITE_API_URL as string | undefined)?.trim();
+const baseHost = rawApiUrl || "http://localhost:5001";
+const cleanHost = baseHost.replace(/\/+$/, "");
+const apiRoot = cleanHost.endsWith("/api") ? cleanHost : `${cleanHost}/api`;
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<AuthUser | null>(null);
@@ -46,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
                 // Verify token against server — catches expired tokens and role mismatches
                 try {
-                    const res = await axios.get(`${apiRoot}/api/auth/me`, {
+                    const res = await axios.get(`${apiRoot}/auth/me`, {
                         headers: { Authorization: `Bearer ${savedToken}` },
                     });
                     const fresh = res.data;

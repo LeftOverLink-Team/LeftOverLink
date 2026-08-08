@@ -161,12 +161,9 @@ export function SettingsPage() {
       try {
         if (!token) return;
         // Load profile from /auth/me
-        const apiRoot = ((import.meta as any)?.env?.VITE_API_URL as string) || 'http://localhost:5001';
-        const res = await fetch(`${apiRoot}/api/auth/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          const userData = await res.json();
+        const profileRes = await api.get('/auth/me');
+        if (profileRes.data) {
+          const userData = profileRes.data;
           setSettings((prev: any) => ({
             ...prev,
             name: userData.name || '',
