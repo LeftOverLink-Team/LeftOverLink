@@ -11,23 +11,28 @@ const buildCorsMiddleware = () => {
       }
 
       const normalizedOrigin = origin.replace(/\/$/, "");
-      if (allowedOrigins.includes(normalizedOrigin) || allowedOrigins.includes(origin)) {
+
+      const isAllowed =
+        allowedOrigins.includes(origin) ||
+        allowedOrigins.includes(normalizedOrigin) ||
+        normalizedOrigin === "https://left-over-link-three.vercel.app" ||
+        normalizedOrigin.startsWith("http://localhost") ||
+        normalizedOrigin.startsWith("http://127.0.0.1") ||
+        normalizedOrigin.startsWith("http://10.");
+
+      if (isAllowed) {
         return callback(null, true);
       }
 
-      if (origin.startsWith("http://localhost") || origin.startsWith("http://127.0.0.1") || origin.startsWith("http://10.")) {
-        return callback(null, true);
-      }
-
-      return callback(new Error(`Origin ${origin} not allowed by CORS`));
+      return callback(null, false);
     },
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    optionsSuccessStatus: 200,
   });
 };
 
 module.exports = {
   buildCorsMiddleware,
 };
-
