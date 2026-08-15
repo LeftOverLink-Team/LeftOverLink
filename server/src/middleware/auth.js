@@ -20,7 +20,7 @@ const authenticate = async (req, res, next) => {
 
     req.user = {
       id: user._id.toString(),
-      role: payload.role || user.role,
+      role: user.role, // Always use DB role — JWT sub identifies the user; DB is the source of truth for role authorization
       email: user.email,
       name: user.name,
     };

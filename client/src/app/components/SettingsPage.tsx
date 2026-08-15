@@ -455,18 +455,35 @@ export function SettingsPage() {
               <Label>Role</Label>
               <Select
                 value={settings.role || ''}
-                onValueChange={(value) => {
-                  const newSettings = { ...settings, role: value };
-                  setSettings(newSettings);
-                  saveToStorage(newSettings);
+                onValueChange={async (value) => {
+                  try {
+                    const res = await api.put('/auth/role', { role: value });
+                    const { token: newToken, user: updatedUser } = res.data;
 
-                  // Update current user role in context to trigger dashboard switch
-                  if (user) {
-                    updateUser({ role: value });
+                    // Store the fresh JWT so all subsequent API calls use the new role
+                    localStorage.setItem('token', newToken);
+                    // Also update the in-memory Axios default header immediately —
+                    // the request interceptor reads localStorage but only on the next
+                    // call; setting the default here closes that race window.
+                    api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+
+                    const newSettings = { ...settings, role: value };
+                    setSettings(newSettings);
+                    saveToStorage(newSettings);
+
+                    // Update AuthContext with the new role from the server response
+                    if (user) {
+                      updateUser({ role: updatedUser.role });
+                    }
+
+                    toast.success(`Role switched to ${value === 'provider' ? 'Provider' : 'Receiver'}`);
+                    navigate(value === 'provider' ? '/provider' : '/receiver');
+                  } catch (err: any) {
+                    const msg = err?.response?.data?.error?.message || 'Failed to switch role. Please try again.';
+                    toast.error(msg);
+                    // Revert the dropdown to the current server role
+                    setSettings((prev: any) => ({ ...prev, role: user?.role || prev.role }));
                   }
-
-                  toast.success(`Role switched to ${value === 'provider' ? 'Provider' : 'Receiver'}`);
-                  navigate(value === 'provider' ? '/provider' : '/receiver');
                 }}
               >
                 <SelectTrigger className="mt-1">
