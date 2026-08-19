@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
-import { HeatmapLayer } from 'react-leaflet-heatmap-layer-v3';
+import { MapContainer, TileLayer, useMap, Marker, Popup, Circle } from 'react-leaflet';
 import L from 'leaflet';
 import { useTheme } from 'next-themes';
 import api from '../../api/axios';
@@ -97,21 +96,23 @@ function HeatmapContent({
                 </Marker>
             )}
 
-            {/* Heatmap Layer */}
-            {activeData.length > 0 && (
-                <HeatmapLayer
-                    fitBoundsOnLoad={false}
-                    fitBoundsOnUpdate={false}
-                    points={activeData}
-                    longitudeExtractor={(m: any) => m.lng}
-                    latitudeExtractor={(m: any) => m.lat}
-                    intensityExtractor={(m: any) => m.intensity}
-                    radius={20}
-                    blur={15}
-                    max={10}
-                    gradient={gradient}
-                />
-            )}
+            {/* Heatmap Layer - Circles representing heat points */}
+            {activeData.map((pt, i) => {
+                const color = gradient[0.8] || '#ef4444';
+                return (
+                    <Circle
+                        key={i}
+                        center={[pt.lat, pt.lng]}
+                        radius={25000 * Math.max(0.5, pt.intensity / 5)}
+                        pathOptions={{
+                            color: color,
+                            fillColor: color,
+                            fillOpacity: 0.35 + Math.min(0.4, pt.intensity / 20),
+                            stroke: false,
+                        }}
+                    />
+                );
+            })}
         </>
     );
 }
