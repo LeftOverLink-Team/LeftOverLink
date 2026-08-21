@@ -7,8 +7,13 @@ const startServer = async () => {
 
   const app = createApp();
 
+  // Required for Render proxy
+  app.set("trust proxy", 1);
+
   app.listen(config.port, () => {
-    console.log(`Server running on port ${config.port} (${config.nodeEnv})`);
+    console.log(
+      `Server running on port ${config.port} (${config.nodeEnv})`
+    );
   });
 };
 
@@ -16,4 +21,3 @@ startServer().catch((err) => {
   console.error("Failed to start server:", err);
   process.exit(1);
 });
-
