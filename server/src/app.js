@@ -17,7 +17,14 @@ const createApp = () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
-  app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
+  app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "..", "uploads"), {
+    setHeaders: (res) => {
+      res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    },
+  }),
+);
 
   // Logging & rate limiting
   app.use(httpLogger);
