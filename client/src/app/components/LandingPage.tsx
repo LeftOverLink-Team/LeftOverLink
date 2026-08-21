@@ -3,7 +3,6 @@ import { Button } from './ui/button';
 import { motion } from 'motion/react';
 import { UtensilsCrossed, Heart, Users, TrendingDown } from 'lucide-react';
 import { Header } from './Header';
-import { LiveHeatmap } from '../features/map/LiveHeatmap';
 import { useAuth } from '../context/AuthContext';
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
@@ -195,8 +194,7 @@ export function LandingPage() {
               Our live simulation tracks hotzones where surplus food is frequently wasted versus communities experiencing high demand.
             </p>
           </div>
-
-          <LiveHeatmap />
+cd D:\projects\leftoverlink\LEFTOVERLINK1-main
         </motion.div>
 
         {/* Donation Section */}
