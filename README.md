@@ -41,3 +41,71 @@ LeftOverLink provides a centralized platform where:
 
 ---
 
+## ✨ Key Features
+
+### 👤 Role-Based Access
+
+Users can choose their role based on their requirement:
+
+* **I Have Food** — Food Provider
+* **I Need Food** — Food Receiver
+
+The role determines the features and interface available to the user.
+
+---
+
+### 🍱 Food Provider
+
+Providers can:
+
+* Create an account.
+* Log in securely.
+* Post available surplus food.
+* Provide food details.
+* Specify the available quantity.
+* Provide pickup/location information.
+* Make surplus food visible to nearby receivers.
+
+---
+
+### 🥗 Food Receiver
+
+Receivers can:
+
+* Create an account.
+* Log in securely.
+* Discover available food.
+* View food locations on the map.
+* Check available food information.
+* Find suitable pickup locations.
+* Collect available surplus food.
+
+---
+
+### 🗺️ Interactive Map
+
+LeftOverLink uses a map-based interface to help users discover food availability based on location.
+
+The map helps users:
+
+* Locate available food.
+* Understand the geographical distribution of food.
+* Find nearby food resources.
+* Visualize food availability.
+
+---
+
+### 🔥 Heatmap Visualization
+
+The application includes a heatmap visualization to represent food availability and distribution geographically.
+
+This can help identify:
+
+* Areas with higher food availability.
+* Food distribution patterns.
+* Locations where surplus food is concentrated.
+
+---
+
+
+
